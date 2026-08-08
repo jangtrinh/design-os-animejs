@@ -1,5 +1,7 @@
 # Robotic Arm — an anime.js-style scrollytelling site
 
+**Live demo:** https://design-os-animejs.vercel.app
+
 A single-page 3D showcase inspired by [animejs.com](https://animejs.com): a robotic arm that
 assembles itself from wireframe, explodes into a labeled blueprint, and plays through
 color-coded feature acts — all driven by one scroll value.

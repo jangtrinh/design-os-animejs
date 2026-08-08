@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Robotic Arm — Hero Intro + Scrub POC</title>
+    <link rel="stylesheet" href="/src/styles/main.css" />
+  </head>
+  <body>
+    <canvas id="scene-canvas" aria-hidden="true"></canvas>
+
+    <div id="loader-overlay">
+      <span id="loader-percent">0%</span>
+      <span class="loader-dot"></span>
+    </div>
+
+    <div id="webgl-fallback" hidden>3D preview unavailable</div>
+
+    <section id="act-hero" data-act-index="0">
+      <div class="hero-copy">
+        <h1 id="hero-headline">
+          <span class="word">Robotic</span>
+          <span class="word">arm</span>
+          <span class="word">in</span>
+          <span class="word">motion</span><span class="dot">.</span>
+        </h1>
+        <p id="hero-subtitle">
+          It <span id="word-cycle" data-words="assembles,welds,lifts">assembles</span>
+        </p>
+        <div id="hero-cta">
+          <code class="chip">npm i robotic-arm</code>
+          <a class="ghost-btn" href="#act-blueprint">Explore ↓</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="act-blueprint" data-act-index="1">
+      <div class="act-blueprint-heading">
+        <h2 class="act-title">The complete arm toolbox</h2>
+        <p class="act-lede">Every joint, pulled apart and named.</p>
+      </div>
+
+      <!-- No viewBox on purpose: user units == CSS px, so projected screen
+           coords go straight into `d` with no extra scaling step. -->
+      <svg id="leader-lines" aria-hidden="true"></svg>
+      <div id="blueprint-labels">
+        <span class="part-label" data-col="left" data-node="base_circle_low" data-reveal="0.38">PLINTH</span>
+        <span class="part-label" data-col="left" data-node="base1_low" data-reveal="0.44">YAW BASE</span>
+        <span class="part-label" data-col="left" data-node="base6_low" data-reveal="0.50">COLLAR</span>
+        <span class="part-label" data-col="left" data-node="wheel1_low" data-reveal="0.56">SHOULDER</span>
+        <span class="part-label" data-col="right" data-node="main2_low" data-reveal="0.62">MAIN ARM</span>
+        <span class="part-label" data-col="right" data-node="wheel2_low" data-reveal="0.68">ELBOW</span>
+        <span class="part-label" data-col="right" data-node="sub2_low" data-reveal="0.74">SUB ARM</span>
+        <span class="part-label" data-col="right" data-node="head1_low" data-reveal="0.80">HEAD</span>
+      </div>
+    </section>
+
+    <section id="act-zoom" data-act-index="2"></section>
+
+    <section id="act-scroll" data-act-index="3" data-accent="scroll">
+      <div class="feature-copy">
+        <h2 class="feature-title">Scroll Observer</h2>
+        <p class="feature-lede">
+          Synchronise the arm to the scroll position, in both directions, with one bound value.
+        </p>
+        <ul class="feature-bullets">
+          <li>Two-way scrub, never a one-shot trigger</li>
+          <li>Frame-rate independent damping</li>
+          <li>One observer per act, one writer per frame</li>
+        </ul>
+      </div>
+      <figure class="code-card">
+        <pre><code><span class="tok-kw">const</span> observer = <span class="tok-fn">onScroll</span><span class="tok-punc">(</span><span class="tok-punc">{</span>
+  target<span class="tok-punc">:</span> sectionEl<span class="tok-punc">,</span>
+  axis<span class="tok-punc">:</span> <span class="tok-str">'y'</span><span class="tok-punc">,</span>
+  sync<span class="tok-punc">:</span> <span class="tok-bool">true</span><span class="tok-punc">,</span>
+  enter<span class="tok-punc">:</span> <span class="tok-str">'top top'</span><span class="tok-punc">,</span>
+  leave<span class="tok-punc">:</span> <span class="tok-str">'bottom bottom'</span><span class="tok-punc">,</span>
+<span class="tok-punc">}</span><span class="tok-punc">)</span><span class="tok-punc">;</span></code></pre>
+      </figure>
+    </section>
+
+    <section id="act-clockwork" data-act-index="4" data-accent="clockwork">
+      <div class="feature-copy">
+        <h2 class="feature-title">Runs like clockwork</h2>
+        <p class="feature-lede">
+          One requestAnimationFrame owns the clock. anime.js updates values, three.js draws them —
+          never the other way round.
+        </p>
+        <ul class="feature-bullets">
+          <li>Single owned RAF loop</li>
+          <li>anime.js engine driven manually</li>
+          <li>dt clamped across tab switches</li>
+        </ul>
+      </div>
+      <figure class="code-card">
+        <pre><code>engine.useDefaultMainLoop = <span class="tok-bool">false</span><span class="tok-punc">;</span>
+
+<span class="tok-kw">function</span> tick<span class="tok-punc">(</span>now<span class="tok-punc">)</span> <span class="tok-punc">{</span>
+  engine.<span class="tok-fn">update</span><span class="tok-punc">(</span><span class="tok-punc">)</span><span class="tok-punc">;</span>
+  <span class="tok-kw">for</span> <span class="tok-punc">(</span><span class="tok-kw">const</span> cb <span class="tok-kw">of</span> callbacks<span class="tok-punc">)</span> <span class="tok-fn">cb</span><span class="tok-punc">(</span>dt<span class="tok-punc">,</span> elapsed<span class="tok-punc">)</span><span class="tok-punc">;</span>
+  renderer.<span class="tok-fn">render</span><span class="tok-punc">(</span>scene<span class="tok-punc">,</span> camera<span class="tok-punc">)</span><span class="tok-punc">;</span>
+<span class="tok-punc">}</span></code></pre>
+      </figure>
+    </section>
+
+    <section id="act-outro" data-act-index="5">
+      <div class="outro-copy">
+        <h2 class="outro-title">Start animating<span class="dot">.</span></h2>
+        <p class="outro-lede">Everything on this page is one gltf, one RAF loop and one scrub value.</p>
+        <ul class="outro-grid">
+          <li><a href="#act-hero"><i style="--dot:var(--dot-1)"></i>Back to top<span>→</span></a></li>
+          <li><a href="#act-blueprint"><i style="--dot:var(--dot-2)"></i>Blueprint<span>→</span></a></li>
+          <li><a href="#act-scroll"><i style="--dot:var(--dot-3)"></i>Scroll Observer<span>→</span></a></li>
+          <li><a href="#act-clockwork"><i style="--dot:var(--dot-4)"></i>Clockwork<span>→</span></a></li>
+          <li>
+            <a href="https://github.com/jangtrinh/design-os" target="_blank" rel="noopener noreferrer"
+              ><i style="--dot:var(--dot-5)"></i>design:os by JANG<span>→</span></a
+            >
+          </li>
+          <li>
+            <a href="https://github.com/jangtrinh/design-os" target="_blank" rel="noopener noreferrer"
+              ><i style="--dot:var(--dot-6)"></i>Star on GitHub<span>→</span></a
+            >
+          </li>
+          <li>
+            <a
+              href="https://sketchfab.com/3d-models/robotic-arm-daaffeda139a441cbb3ca9c835045fb4"
+              target="_blank"
+              rel="noopener noreferrer"
+              ><i style="--dot:var(--dot-7)"></i>Model on Sketchfab<span>→</span></a
+            >
+          </li>
+          <li>
+            <a href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener noreferrer"
+              ><i style="--dot:var(--dot-8)"></i>CC-BY-NC-4.0<span>→</span></a
+            >
+          </li>
+          <li>
+            <a href="https://github.com/jangtrinh/design-os" target="_blank" rel="noopener noreferrer"
+              ><i style="--dot:var(--dot-1)"></i>Built with design:os<span>→</span></a
+            >
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <div id="zoom-veil" aria-hidden="true"></div>
+
+    <div id="ticker">
+      <div id="ticker-tick"></div>
+    </div>
+
+    <footer id="site-footer">
+      This work is based on "robotic arm" (<a
+        href="https://sketchfab.com/3d-models/robotic-arm-daaffeda139a441cbb3ca9c835045fb4"
+        target="_blank"
+        rel="noopener noreferrer"
+        >https://sketchfab.com/3d-models/robotic-arm-daaffeda139a441cbb3ca9c835045fb4</a
+      >) by yuki (https://sketchfab.com/yuki97) licensed under CC-BY-NC-4.0 (<a
+        href="http://creativecommons.org/licenses/by-nc/4.0/"
+        target="_blank"
+        rel="noopener noreferrer"
+        >http://creativecommons.org/licenses/by-nc/4.0/</a
+      >)
+    </footer>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

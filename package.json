@@ -1,0 +1,29 @@
+{
+  "name": "robotic-arm-poc-site",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vite --port 4313 --strictPort --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --port 4313 --strictPort --host 127.0.0.1",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "animejs": "^4.5.0",
+    "three": "^0.185.1"
+  },
+  "devDependencies": {
+    "@fontsource-variable/space-grotesk": "^5.3.0",
+    "@fontsource/jetbrains-mono": "^5.3.0",
+    "@types/three": "^0.185.4",
+    "typescript": "~5.9",
+    "vite": "^8.2.1",
+    "vitest": "^4.1.10"
+  }
+}

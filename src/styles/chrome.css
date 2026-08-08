@@ -1,0 +1,103 @@
+/* --- Persistent chrome: ticker pill (direct <body> child, spans all acts),
+   loader, WebGL fallback, footer credit, zoom-veil placeholder. --- */
+
+/* --- Ticker pill (phase 02 upgrade: dark rounded pill, replaces the
+   phase-01 hairline film-strip). Values sampled from
+   reference/animejs-toolbox-exploded-ref.png. --- */
+#ticker {
+  position: fixed;
+  right: 32px;
+  bottom: 32px;
+  z-index: 3;
+  width: clamp(240px, 25vw, 380px);
+  height: 40px;
+  border-radius: 20px;
+  background: var(--surface-pill);
+  padding: 0 14px;
+  overflow: hidden;
+  opacity: 1;
+}
+#ticker::before {
+  content: '';
+  position: absolute;
+  inset: 11px 14px;
+  background: repeating-linear-gradient(to right, #b9b5ae 0 1px, transparent 1px 7px);
+  opacity: 0.55;
+}
+#ticker-tick { position: absolute; top: 7px; left: 14px; width: 2px; height: 26px; border-radius: 1px; background: var(--accent-red); will-change: transform; }
+
+/* --- Footer credit (P0, license) --- */
+#site-footer {
+  position: relative;
+  z-index: 2;
+  padding: var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--step-mono);
+  color: var(--text-muted);
+  background: var(--bg-dark);
+}
+#site-footer a { color: inherit; text-decoration: underline; }
+
+/* --- Loader + WebGL fallback ---
+   z-index 1, below #site-footer's 2 by design: if the user scrolls to the
+   footer while loading/fallback is still showing, the footer paints on top
+   instead of being hidden under a fixed full-viewport overlay (UC-03 requires
+   credit visible in every state; judgment call, phase-04 report). */
+#loader-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  background: var(--bg-dark);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--step-mono);
+  /* 400ms per phase-07 checklist's explicit loader row (not --dur-base's
+     420ms - close but deliberately its own value); curve still the one
+     shared --ease-out, not the browser default "ease". */
+  transition: opacity 0.4s var(--ease-out);
+}
+#loader-overlay.is-hidden { opacity: 0; }
+.loader-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--accent-red);
+  border-top-color: transparent;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+#webgl-fallback {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  background: var(--bg-dark) url('/poster.webp') center/cover;
+  color: var(--text-muted);
+  text-align: center;
+  padding: var(--space-4);
+}
+#webgl-fallback[hidden] { display: none !important; }
+
+/* --- Zoom-through veil (phase 01 markup, phase 05 behaviour): full-viewport
+   opacity mask driven per frame by scrub-controller.ts off ActPose.veil (see
+   act-tracks.ts's ZOOM_TRACKS/SCROLL_TRACKS) — never a timeline. z-index 2
+   sits above the canvas (0) and the blueprint act's leader lines (1) but
+   below the ticker (3), so the ticker stays visible through the transition,
+   matching the reference's persistent scrubber. --- */
+#zoom-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  background: var(--bg-dark);
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity;
+}

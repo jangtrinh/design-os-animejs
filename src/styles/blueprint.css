@@ -1,0 +1,99 @@
+/* --- Blueprint act (paper), moved verbatim from main.css (id renamed
+   #section-scrub -> #act-blueprint; min-height moved to main.css's shared
+   act-heights block). Phase 03: replaces the 4-label #scrub-labels dash
+   system with 8 fixed-column labels (#blueprint-labels) joined to their 3D
+   anchors by SVG leader lines (#leader-lines, paths written by part-labels.ts
+   via leader-line-geometry.ts). --- */
+#act-blueprint { color: var(--ink-dark); background: transparent; }
+
+/* Act title/lede pinned top-left, same block position as the reference
+   (animejs-toolbox-exploded-ref.png) — shared typography lives in main.css.
+   position:sticky on the wrapper (not fixed, and not on the two children
+   individually — two siblings sticky at the same `top` would overlap once
+   both are pinned) so the pin is scoped to this section's own 400vh scroll
+   range while the act is genuinely active.
+   DOES still need a body[data-act='blueprint'] gate though (Fable audit,
+   scroll-back-to-hero bug): each act's own onScroll range is only
+   `heightVh - 100vh` wide (section-router.ts's ACTS table), leaving a
+   ~100vh "dead zone" between one act's own scrub range ending and the next
+   act's `top top` enter trigger. #act-blueprint's box already starts
+   filling the viewport from the BOTTOM one full viewport-height before that
+   enter trigger fires — normal document flow, nothing scroll-linked about
+   it — so this sticky heading's un-stuck static position scrolls into view
+   and paints on top of #act-hero's still-active (data-act='hero') fixed
+   .hero-copy a full viewport-height early, in both scroll directions
+   (reproduced: /private/tmp/claude-501/-Users-jang-Products-robotic-arm/a0cace38-9292-42da-a15b-2d7c3d25c879/scratchpad/fix-bleed/04-DEADZONE-REPRO-DOWN-y800.png,
+   .../05-DEADZONE-REPRO-UP-y800.png). #blueprint-labels/#leader-lines
+   already had this exact gate for the same reason; the heading was the one
+   piece of this act's copy that didn't, because it's the only
+   position:sticky (not fixed) copy block on the page — everything else
+   only ever appears via its own CSS gate, never "for free" through normal
+   scroll flow. Same opacity/transition idiom as .hero-copy/.feature-copy/
+   .outro-copy (hero.css/feature.css/outro.css). */
+#act-blueprint .act-blueprint-heading {
+  position: sticky;
+  top: 56px;
+  margin-left: 56px;
+  max-width: 26ch;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+body[data-act='blueprint'] #act-blueprint .act-blueprint-heading {
+  opacity: 1;
+  pointer-events: auto;
+}
+#act-blueprint .act-title { max-width: 14ch; }
+#act-blueprint .act-lede { color: #6b6763; line-height: 1.45; margin-top: var(--space-2); }
+
+#leader-lines {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+#leader-lines path {
+  fill: none;
+  stroke: var(--line-leader);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+#leader-lines path.is-visible { opacity: 1; }
+
+.part-label {
+  position: fixed;
+  font-family: var(--font-mono);
+  font-size: var(--step-mono); /* phase-07 type-scale sweep: literal 13px -> token (same value) */
+  letter-spacing: 0.06em;
+  color: var(--ink-dark);
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out);
+  white-space: nowrap;
+  pointer-events: none;
+}
+.part-label.is-visible { opacity: 1; }
+.part-label[data-col='left'] { left: 56px; text-align: left; }
+.part-label[data-col='right'] { right: 56px; text-align: right; }
+
+/* 4 rows per column, 26px rhythm — read off the reference (labels sit ~4%
+   from the frame edge with a ~1.9x line-height rhythm at 13px mono). */
+#blueprint-labels .part-label:nth-child(1) { bottom: 212px; }
+#blueprint-labels .part-label:nth-child(2) { bottom: 186px; }
+#blueprint-labels .part-label:nth-child(3) { bottom: 160px; }
+#blueprint-labels .part-label:nth-child(4) { bottom: 134px; }
+#blueprint-labels .part-label:nth-child(5) { top: 88px; }
+#blueprint-labels .part-label:nth-child(6) { top: 114px; }
+#blueprint-labels .part-label:nth-child(7) { top: 140px; }
+#blueprint-labels .part-label:nth-child(8) { top: 166px; }
+
+/* Labels/lines keep whatever is-visible class they last had when the act
+   goes inactive — gate on the act instead, or they bleed into the hero and
+   zoom acts (both share the same fixed-viewport coordinate space). */
+body:not([data-act='blueprint']) #blueprint-labels,
+body:not([data-act='blueprint']) #leader-lines {
+  opacity: 0;
+}

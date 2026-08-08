@@ -1,0 +1,65 @@
+/* --- Hero act (dark), moved verbatim from main.css (id renamed
+   #section-hero -> #act-hero) --- */
+#act-hero {
+  color: var(--text-primary);
+  background: transparent;
+}
+
+/* Copy block pinned to the viewport (same fixed + body[data-act] gate
+   pattern as .feature-copy/.outro-copy), not laid out inside #act-hero's own
+   180vh box - centering with `display:flex;justify-content:center` on that
+   tall box put the headline ~90vh down the page (fable polish note: headline
+   sat at the bottom edge, subtitle/CTA off-screen). 5vw left inset per
+   phase-07 checklist, matches f04.png's block position. */
+.hero-copy {
+  position: fixed;
+  left: 5vw;
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: min(40vw, 560px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+body[data-act='hero'] .hero-copy {
+  opacity: 1;
+  pointer-events: auto;
+}
+#hero-headline {
+  font-family: var(--font-display);
+  font-size: var(--step-hero);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+  /* phase-07 polish: 12ch let "Robotic arm" run too wide at 1440x900;
+     narrowed so every word wraps cleanly at all 3 checked viewports
+     (1280x720/1440x900/1920x1080). */
+  max-width: 8ch;
+}
+#hero-headline .dot { color: var(--accent-red); }
+.word { display: inline-block; opacity: 0; transform: translateY(24px); }
+
+/* #hero-subtitle/#hero-cta start hidden (opacity 0) so reveals.ts's stagger
+   timeline (UC-01a: reveal only after Hero Intro ends) has something to
+   animate from - spec's CSS list only states this for .word; judgment call,
+   documented in the phase-04 report. */
+#hero-subtitle { margin-top: var(--space-3); color: var(--text-muted); opacity: 0; }
+#word-cycle { color: var(--text-primary); display: inline-block; min-width: 9ch; }
+#hero-cta { display: flex; align-items: center; gap: var(--space-3); margin-top: var(--space-4); opacity: 0; }
+#hero-cta .chip {
+  font-family: var(--font-mono);
+  font-size: var(--step-mono);
+  border: 1px solid #3a3532; /* literal spec value, not a token */
+  border-radius: 4px;
+  padding: 8px 12px;
+}
+.ghost-btn {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: var(--step-mono);
+  border: 1px solid currentColor;
+  background: none;
+  color: inherit;
+  text-decoration: none;
+  padding: var(--space-2) var(--space-3);
+}

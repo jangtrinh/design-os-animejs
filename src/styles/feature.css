@@ -1,0 +1,107 @@
+/* --- Feature acts (#act-scroll, #act-clockwork) ---
+   One shared component, two datasets — data-accent selects the headline
+   colour, no per-act stylesheet (DRY, phase-04 spec's Key insights). Both
+   acts' fixed blocks are opacity:0 + pointer-events:none whenever their act
+   is inactive, so they never bleed into a neighbouring act (body[data-act]
+   is single-valued by construction, section-router.ts). */
+.feature-copy {
+  position: fixed;
+  left: 5vw;
+  top: 14vh;
+  max-width: min(30ch, 34vw);
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out);
+  pointer-events: none;
+}
+body[data-act='scroll'] #act-scroll .feature-copy,
+body[data-act='clockwork'] #act-clockwork .feature-copy {
+  opacity: 1;
+}
+.feature-title {
+  font-size: var(--step-h2);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  /* Own opacity:0 baseline (not in the spec's literal CSS list — judgment
+     call, same category as phase-01's #hero-subtitle/#hero-cta precedent):
+     reveals.ts's createActReveals tweens this per element, on top of the
+     parent .feature-copy fade above; without a baseline the child would
+     render at inherited opacity:1 for a frame before its own tween starts. */
+  opacity: 0;
+}
+[data-accent='scroll'] .feature-title { color: var(--accent-scroll); }
+[data-accent='clockwork'] .feature-title { color: var(--accent-clockwork); }
+.feature-lede {
+  margin-top: 14px;
+  font-size: var(--step-body);
+  line-height: 1.45;
+  color: var(--text-primary);
+  opacity: 0;
+}
+.feature-bullets { margin-top: 28px; list-style: none; display: grid; gap: 10px; }
+.feature-bullets li {
+  font-size: var(--step-mono); /* phase-07 type-scale sweep: literal 13px -> token (same value) */
+  color: var(--text-muted);
+  padding-left: 22px;
+  position: relative;
+  opacity: 0;
+}
+.feature-bullets li::before { content: '→'; position: absolute; left: 0; color: var(--text-muted); }
+
+/* Own active-state rule per child (Fable audit, shared-layer fix), same
+   pattern as .code-card's rule below instead of relying only on the parent
+   .feature-copy fade to multiply a stale reveals.ts inline value down to 0.
+   reveals.ts now clears its inline opacity/transform onComplete for every
+   target uniformly (no more "only .code-card gets cleared" special case) —
+   these rules are what makes that safe: once cleared, CSS re-supplies
+   opacity:1 for as long as the act stays active, and supplies it instantly
+   (no restagger) if the act is re-entered without reveals.ts ever running
+   again (createActReveals.play() is once-per-act, act-wiring.ts's
+   playedReveals). No timing gap here like hero.css intentionally has
+   (act-wiring.ts calls reveal.play() synchronously the same frame
+   body[data-act] switches, unlike hero's post-intro delayed play()), so
+   this can't race the entrance animation the way a matching rule on
+   hero.css's .word/#hero-subtitle/#hero-cta would (see hero-reveals.ts). */
+body[data-act='scroll'] #act-scroll .feature-title,
+body[data-act='clockwork'] #act-clockwork .feature-title,
+body[data-act='scroll'] #act-scroll .feature-lede,
+body[data-act='clockwork'] #act-clockwork .feature-lede,
+body[data-act='scroll'] #act-scroll .feature-bullets li,
+body[data-act='clockwork'] #act-clockwork .feature-bullets li {
+  opacity: 1;
+}
+
+.code-card {
+  position: fixed;
+  right: 32px;
+  bottom: 96px; /* clears the 40px ticker pill at bottom:32px, see chrome.css */
+  width: min(430px, 34vw);
+  background: var(--surface-card);
+  border: 1px solid var(--surface-card-border);
+  border-radius: 8px;
+  padding: 16px 18px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+body[data-act='scroll'] #act-scroll .code-card,
+body[data-act='clockwork'] #act-clockwork .code-card {
+  opacity: 1;
+}
+.code-card code {
+  font-family: var(--font-mono);
+  font-size: var(--step-code);
+  line-height: 1.7;
+  color: #d6d1cb;
+  white-space: pre;
+}
+
+/* Hand-placed syntax-highlight token classes (§step 2) — static spans
+   written directly in index.html, no highlighter dependency (YAGNI for two
+   fixed snippets). Colours sit inside the existing token palette. */
+.tok-kw { color: var(--accent-red); }
+.tok-fn { color: #ffffff; }
+.tok-str { color: #9be58a; }
+.tok-num,
+.tok-bool { color: var(--accent-yellow); }
+.tok-punc { color: #7d7873; }

@@ -1,0 +1,52 @@
+:root {
+  --bg-dark: #171514;
+  --bg-paper: #e9e5dd;
+  --ink-dark: #1a1a1a;
+  --text-primary: #ffffff;
+  --text-muted: #a7a29c;
+  --accent-red: #f43e2f;
+  --accent-yellow: #f5c518;
+  --accent-green: #3ee06f;
+
+  /* grotesque, weight 600-700, tracking -0.02em~-0.03em (Fable typography ruling) */
+  --font-display: 'Space Grotesk Variable', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --step-hero: clamp(40px, 8vw, 96px);
+  --step-mono: 13px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 32px;
+  --space-5: 64px;
+  --space-6: 120px;
+
+  /* animejs-full-clone: outro nav-dot hues (median per 15deg bucket,
+     de-bloomed from reference/f04.png), surface/line colors sampled from
+     reference/animejs-toolbox-exploded-ref.png, act accents from
+     superprompt.md §2. */
+  --dot-1: #f43e2f;
+  --dot-2: #f5842f;
+  --dot-3: #f5c518;
+  --dot-4: #8ade3f;
+  --dot-5: #3ee06f;
+  --dot-6: #00e08f;
+  --dot-7: #00d6e0;
+  --dot-8: #3f86ea;
+  --accent-scroll: #3ee06f;
+  --accent-clockwork: #f5c518;
+  --line-blueprint: #6b6763;
+  --line-leader: #9c9894;
+  --surface-card: #1e1c1b;
+  --surface-card-border: #2f2c2a;
+  --surface-pill: #2f2e2d;
+  --surface-tile: #211f1e;
+  --step-h2: clamp(32px, 4.4vw, 56px);
+  --step-body: 17px;
+  --step-code: 11.5px;
+  --dur-fast: 220ms;
+  --dur-base: 420ms;
+  --dur-slow: 900ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}

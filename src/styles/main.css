@@ -1,0 +1,33 @@
+@import './tokens.css';
+@import './hero.css';
+@import './blueprint.css';
+@import './feature.css';
+@import './outro.css';
+@import './chrome.css';
+/* phase 03: forces a real content-hash change so Vite's postcss-import
+   dependency graph re-resolves this file's @import chain from scratch. */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: auto; }
+body { background: var(--bg-dark); color: var(--text-primary); font-family: var(--font-display); }
+#scene-canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; z-index: 0; }
+section { position: relative; z-index: 1; }
+
+/* Shared act typography (hero excluded — it has its own #hero-headline). */
+.act-title { font-size: var(--step-h2); font-weight: 700; letter-spacing: -0.03em; }
+.act-lede { font-size: var(--step-body); color: var(--text-muted); margin-top: var(--space-2); }
+
+/* Act min-heights drive each act's own Scrub controller scroll range: range
+   = height - 100vh (see section-router.ts's ACTS table + plan.md §step 3).
+   Verbatim from that table — no value edits in this phase. */
+#act-hero { min-height: 180vh; }
+#act-blueprint { min-height: 400vh; }
+#act-zoom { min-height: 220vh; }
+#act-scroll { min-height: 300vh; }
+#act-clockwork { min-height: 300vh; }
+#act-outro { min-height: 230vh; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+  .word, #hero-subtitle, #hero-cta { opacity: 1; transform: none; }
+}

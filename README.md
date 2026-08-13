@@ -4,6 +4,8 @@
 
 ![Scroll-through demo](docs/demo.gif)
 
+*Full-quality recording: [docs/demo.mp4](docs/demo.mp4).*
+
 A single-page 3D showcase inspired by [animejs.com](https://animejs.com): a robotic arm that
 assembles itself from wireframe, explodes into a labeled blueprint, and plays through
 color-coded feature acts — all driven by one scroll value.
@@ -39,6 +41,37 @@ one `requestAnimationFrame` loop.
    keyframes (no mechanical corners), plus a subtle idle "breathing" layer so the model is
    alive before the first scroll.
 8. **Ship.** Commit, push to GitHub, deploy to Vercel.
+
+## Reproduce it with DESIGN:OS
+
+The method above ran inside [DESIGN:OS](https://github.com/jangtrinh/design-os), a
+multi-runtime design CLI. You describe what you want in plain words inside the agent CLI
+you already use (Claude Code, Codex CLI, or Antigravity); DESIGN:OS supplies the taste —
+personas, a compiled design system, and deterministic quality gates the model cannot talk
+past.
+
+```sh
+# install the toolchain
+git clone https://github.com/jangtrinh/design-os ease-design && cd ease-design
+npm install && npm run build && npm link
+ui doctor                      # confirms the install is healthy
+
+# wire it into your own project
+cd ~/your-project
+ui init --runtime claude       # or: codex / antigravity
+```
+
+Then describe the page to your agent in plain words:
+
+```
+/ui:generate a scrollytelling 3D product page — a pinned robotic arm that assembles
+from wireframe, a labeled blueprint exploded view, color-coded feature acts,
+scroll = scrub throughout
+```
+
+Start from the
+[60-second quickstart](https://github.com/jangtrinh/design-os/blob/main/QUICKSTART.md);
+the same gates that shipped this page run identically on your machine.
 
 ## Run it
 

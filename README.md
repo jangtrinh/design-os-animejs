@@ -51,14 +51,10 @@ personas, a compiled design system, and deterministic quality gates the model ca
 past.
 
 ```sh
-# install the toolchain
-git clone https://github.com/jangtrinh/design-os ease-design && cd ease-design
-npm install && npm run build && npm link
-ui doctor                      # confirms the install is healthy
-
-# wire it into your own project
+npm install -g ease-design     # the DESIGN:OS kernel — the `ui` binary
 cd ~/your-project
 ui init --runtime claude       # or: codex / antigravity
+ui doctor --cwd .              # confirms the project is wired
 ```
 
 Then describe the page to your agent in plain words:

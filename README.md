@@ -85,3 +85,5 @@ by [yuki](https://sketchfab.com/yuki97), licensed under
 [CC-BY-NC-4.0](http://creativecommons.org/licenses/by-nc/4.0/). Non-commercial showcase only.
 
 Design direction inspired by [animejs.com](https://animejs.com) (Julian Garnier).
+
+Built by [Jang Trịnh](https://www.jang.work/?utm_source=github&utm_medium=readme&utm_campaign=design-os-animejs). More projects, case studies and writing at [jang.work](https://www.jang.work/?utm_source=github&utm_medium=readme&utm_campaign=design-os-animejs).
